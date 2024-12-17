@@ -2,16 +2,24 @@
   /* Layout */
   --max-width: 1440px;
   --content-padding: 2rem;
-  --section-padding: 6rem;
+  --section-padding: 8rem;
   --grid-gap: 2rem;
 
   /* Colors */
-  --primary: #3B82F6;
-  --primary-dark: #2563EB;
-  --text-primary: #1F2937;
-  --text-secondary: #4B5563;
-  --background: #FFFFFF;
-  --background-alt: #F9FAFB;
+  --primary: #4285f4;
+  --primary-dark: #1a73e8;
+  --accent: #4285f4;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --background: #0a1929;
+  --background-alt: #132f4c;
+  --overlay: rgba(10, 25, 41, 0.7);
+
+  /* Shadows */
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.15);
+  --shadow-hover: 0 24px 48px rgba(0, 0, 0, 0.2);
 
   /* Typography */
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -58,7 +66,7 @@
 @media (min-width: 1024px) {
   :root {
     --content-padding: 3rem;
-    --section-padding: 8rem;
+    --section-padding: 10rem;
     --grid-gap: 2.5rem;
   }
 }
@@ -66,14 +74,14 @@
 @media (min-width: 1280px) {
   :root {
     --content-padding: 4rem;
-    --section-padding: 10rem;
+    --section-padding: 12rem;
     --grid-gap: 3rem;
   }
 }
 
 /* Utility classes */
 .text-gradient {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -82,7 +90,38 @@
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
 }
 
+.bg-gradient-overlay {
+  background: linear-gradient(to bottom, var(--overlay), var(--overlay));
+}
+
 .backdrop-blur {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  transition: all var(--transition-normal) var(--ease-out);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.section {
+  padding: var(--section-padding) 0;
+}
+
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
 }

@@ -3,42 +3,54 @@ import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const isMenuOpen = ref(false)
-const isAtTop = ref(true)
-const scrollProgress = ref(0)
+const isScrolled = ref(false)
+const opacity = ref(0)
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
+  document.body.style.overflow = isMenuOpen.value ? 'hidden' : ''
 }
 
 onMounted(() => {
   const handleScroll = () => {
     const scrollY = window.scrollY
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-    scrollProgress.value = Math.min((scrollY / maxScroll) * 100, 100)
-    isAtTop.value = scrollY < 50
+    isScrolled.value = scrollY > 100
+    opacity.value = Math.min(scrollY / 200, 0.95)
   }
 
   window.addEventListener('scroll', handleScroll)
   handleScroll()
+
+  return () => {
+    window.removeEventListener('scroll', handleScroll)
+  }
 })
 </script>
 
 <template>
   <nav
-    class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
+    class="fixed top-0 left-0 w-full z-[var(--z-sticky)] transition-all duration-300"
     :class="[
-      isAtTop ? 'bg-transparent' : 'bg-white/95 backdrop-blur-sm shadow-sm',
-      isAtTop ? 'text-white' : 'text-gray-900',
-      'py-2'
+      isScrolled ? 'backdrop-blur-sm' : '',
+      'h-20'
     ]"
+    :style="{
+      backgroundColor: isScrolled ? `rgba(10, 25, 41, ${opacity})` : 'transparent',
+      borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none'
+    }"
   >
-    <div class="max-w-[1440px] mx-auto px-6">
-      <div class="flex justify-between items-center h-16">
+    <div class="content-container h-full">
+      <div class="flex justify-between items-center h-full">
         <div class="flex items-center">
-          <div class="flex-shrink-0 flex items-center">
-            <img class="h-8 w-auto" src="@/assets/logo.svg" :class="{'filter invert': isAtTop}" alt="数字人官网" />
+          <div class="flex-shrink-0">
+            <img
+              class="h-8 w-auto transition-all duration-300"
+              src="@/assets/logo.svg"
+              :class="{'filter invert': !isScrolled}"
+              alt="数字人官网"
+            />
           </div>
-          <div class="hidden lg:ml-12 lg:flex lg:space-x-8">
+          <div class="hidden lg:ml-16 lg:flex lg:space-x-12">
             <RouterLink
               v-for="(item, index) in [
                 { to: '/products', text: '产品矩阵' },
@@ -50,8 +62,7 @@ onMounted(() => {
               :to="item.to"
               class="inline-flex items-center px-1 py-2 text-base font-medium transition-all duration-300"
               :class="[
-                isAtTop ? 'text-white hover:text-white/80' : 'text-gray-900 hover:text-blue-600',
-                'relative'
+                isScrolled ? 'text-gray-900 hover:text-blue-600' : 'text-white hover:text-white/80'
               ]"
             >
               {{ item.text }}
@@ -59,25 +70,25 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4">
+        <div class="hidden lg:ml-8 lg:flex lg:items-center lg:space-x-6">
           <RouterLink
             to="/register"
-            class="inline-flex items-center px-6 py-2 text-sm font-medium rounded-full transition-all duration-300"
+            class="inline-flex items-center px-8 py-2.5 text-sm font-medium rounded-full transition-all duration-300"
             :class="[
-              isAtTop
-                ? 'bg-white/10 text-white hover:bg-white/20'
-                : 'bg-blue-600 text-white hover:bg-blue-700'
+              isScrolled
+                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                : 'bg-white/10 text-white hover:bg-white/20'
             ]"
           >
             免费试用
           </RouterLink>
           <RouterLink
             to="/login"
-            class="inline-flex items-center px-6 py-2 text-sm font-medium rounded-full transition-all duration-300"
+            class="inline-flex items-center px-8 py-2.5 text-sm font-medium rounded-full transition-all duration-300"
             :class="[
-              isAtTop
-                ? 'border border-white/30 text-white hover:bg-white/10'
-                : 'border border-gray-200 text-gray-700 hover:bg-gray-50'
+              isScrolled
+                ? 'border border-gray-200 text-gray-700 hover:bg-gray-50'
+                : 'border border-white/30 text-white hover:bg-white/10'
             ]"
           >
             登录
@@ -88,7 +99,7 @@ onMounted(() => {
           <button
             @click="toggleMenu"
             class="inline-flex items-center justify-center p-2 rounded-md"
-            :class="[isAtTop ? 'text-white' : 'text-gray-500']"
+            :class="[isScrolled ? 'text-gray-500' : 'text-white']"
           >
             <span class="sr-only">打开菜单</span>
             <svg
@@ -115,49 +126,43 @@ onMounted(() => {
     </div>
 
     <div
-      :class="[isMenuOpen ? 'block' : 'hidden', 'lg:hidden']"
-      class="bg-white shadow-lg"
+      :class="[isMenuOpen ? 'translate-x-0' : 'translate-x-full', 'lg:hidden']"
+      class="fixed top-20 right-0 bottom-0 w-full bg-white/95 backdrop-blur-md transform transition-transform duration-300 ease-in-out z-[var(--z-drawer)]"
     >
-      <div class="pt-2 pb-3 space-y-1">
-        <RouterLink
-          to="/products"
-          class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-700 hover:bg-gray-50"
-        >
-          产品矩阵
-        </RouterLink>
-        <RouterLink
-          to="/pricing"
-          class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-700 hover:bg-gray-50"
-        >
-          价格
-        </RouterLink>
-        <RouterLink
-          to="/docs"
-          class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-700 hover:bg-gray-50"
-        >
-          帮助文档
-        </RouterLink>
-        <RouterLink
-          to="/contact"
-          class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-700 hover:bg-gray-50"
-        >
-          合作咨询
-        </RouterLink>
-      </div>
-      <div class="pt-4 pb-3 border-t border-gray-200">
-        <div class="space-y-1">
-          <RouterLink
-            to="/register"
-            class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-          >
-            注册
-          </RouterLink>
-          <RouterLink
-            to="/login"
-            class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-          >
-            登录
-          </RouterLink>
+      <div class="h-full overflow-y-auto">
+        <div class="px-4 py-6 space-y-6">
+          <div class="space-y-4">
+            <RouterLink
+              v-for="(item, index) in [
+                { to: '/products', text: '产品矩阵' },
+                { to: '/pricing', text: '价格' },
+                { to: '/docs', text: '帮助文档' },
+                { to: '/contact', text: '合作咨询' }
+              ]"
+              :key="index"
+              :to="item.to"
+              class="block py-3 text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200"
+              @click="toggleMenu"
+            >
+              {{ item.text }}
+            </RouterLink>
+          </div>
+          <div class="pt-6 border-t border-gray-200 space-y-4">
+            <RouterLink
+              to="/register"
+              class="block w-full py-3 px-4 rounded-full text-center font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
+              @click="toggleMenu"
+            >
+              免费试用
+            </RouterLink>
+            <RouterLink
+              to="/login"
+              class="block w-full py-3 px-4 rounded-full text-center font-medium text-gray-900 border border-gray-200 hover:bg-gray-50 transition-colors duration-200"
+              @click="toggleMenu"
+            >
+              登录
+            </RouterLink>
+          </div>
         </div>
       </div>
     </div>
