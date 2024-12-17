@@ -35,68 +35,92 @@ const setActiveSolution = (index: number) => {
 </script>
 
 <template>
-  <section class="py-24 bg-gradient-to-b from-white to-gray-50">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center mb-4">行业解决方案</h2>
-      <p class="text-gray-600 text-center mb-16 max-w-2xl mx-auto">
-        为不同行业场景提供专业的数字人解决方案，助力企业数字化转型升级
-      </p>
+  <section class="py-24 lg:py-32 bg-gradient-to-b from-white to-gray-50">
+    <div class="container mx-auto px-4 lg:px-16">
+      <div class="text-center mb-16 lg:mb-24">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-6">行业解决方案</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          为不同行业场景提供专业的数字人解决方案，助力企业数字化转型升级
+        </p>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-7xl mx-auto">
         <div
           v-for="(solution, index) in solutions"
           :key="index"
           @mouseenter="setActiveSolution(index)"
-          :class="[
-            'p-8 rounded-2xl transition-all duration-300 transform hover:-translate-y-2',
-            activeSolution === index
-              ? 'bg-blue-600 text-white shadow-xl'
-              : 'bg-white text-gray-800 shadow-lg hover:shadow-xl'
-          ]"
+          class="group relative overflow-hidden"
         >
-          <div class="text-4xl mb-4">{{ solution.icon }}</div>
-          <h3 class="text-2xl font-bold mb-4">{{ solution.title }}</h3>
-          <p :class="[
-            'mb-6',
-            activeSolution === index ? 'text-blue-100' : 'text-gray-600'
-          ]">
-            {{ solution.description }}
-          </p>
-          <ul class="space-y-2">
-            <li
-              v-for="(feature, fIndex) in solution.features"
-              :key="fIndex"
-              :class="[
-                'flex items-center',
-                activeSolution === index ? 'text-blue-100' : 'text-gray-600'
-              ]"
-            >
-              <svg
-                class="w-5 h-5 mr-2"
-                :class="activeSolution === index ? 'text-blue-200' : 'text-blue-600'"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
-              {{ feature }}
-            </li>
-          </ul>
+          <div
+            class="p-10 lg:p-12 rounded-2xl transition-all duration-500 h-full"
+            :class="[
+              'transform hover:scale-[1.02]',
+              activeSolution === index
+                ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-xl'
+                : 'bg-white text-gray-900 shadow-lg hover:shadow-xl'
+            ]"
+          >
+            <div class="flex items-start gap-6">
+              <div class="text-5xl">{{ solution.icon }}</div>
+              <div class="flex-1">
+                <h3 class="text-2xl lg:text-3xl font-bold mb-4">{{ solution.title }}</h3>
+                <p :class="[
+                  'text-lg mb-8 leading-relaxed',
+                  activeSolution === index ? 'text-blue-100' : 'text-gray-600'
+                ]">
+                  {{ solution.description }}
+                </p>
+                <ul class="space-y-4">
+                  <li
+                    v-for="(feature, fIndex) in solution.features"
+                    :key="fIndex"
+                    class="flex items-center gap-3"
+                    :class="activeSolution === index ? 'text-blue-100' : 'text-gray-600'"
+                  >
+                    <svg
+                      class="w-5 h-5 flex-shrink-0"
+                      :class="activeSolution === index ? 'text-blue-200' : 'text-blue-600'"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-lg">{{ feature }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="text-center">
-        <button class="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+      <div class="text-center mt-16 lg:mt-24">
+        <a
+          href="#contact"
+          class="inline-flex items-center px-8 py-4 text-lg font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors"
+        >
           咨询解决方案
-        </button>
+          <svg
+            class="w-5 h-5 ml-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-.solution-card {
-  transition: all 0.3s ease;
+.group {
+  perspective: 1000px;
+}
+
+.group:hover .solution-card {
+  transform: translateZ(20px);
 }
 </style>
