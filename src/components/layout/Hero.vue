@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useScrollAnimation } from '@/composables/useScrollAnimation'
 
 const selectedPlatform = ref('application')
@@ -14,11 +14,29 @@ const handleVideoLoad = () => {
   videoLoaded.value = true
 }
 
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          isVisible.value = true
+        }
+      })
+    },
+    { threshold: 0.3 }
+  )
+
+  const section = document.querySelector('.hero-section')
+  if (section) {
+    observer.observe(section)
+  }
+})
+
 useScrollAnimation()
 </script>
 
 <template>
-  <section class="relative min-h-screen overflow-hidden">
+  <section class="hero-section relative min-h-screen overflow-hidden">
     <!-- Video Background -->
     <div class="absolute inset-0 z-0">
       <video
@@ -29,25 +47,25 @@ useScrollAnimation()
         playsinline
         @loadeddata="handleVideoLoad"
       >
-        <source src="/videos/hero-background.mp4" type="video/mp4">
+        <source src="https://digital-human-js-cdn.cdn.bcebos.com/digital-human-js/video/homepage-bg.mp4" type="video/mp4">
       </video>
       <div
-        class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent"
+        class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-transparent transition-opacity duration-1000"
         :class="{'opacity-0': !videoLoaded}"
       ></div>
     </div>
 
     <!-- Content -->
-    <div class="relative z-10 content-container">
-      <div class="text-center text-white">
+    <div class="relative z-10 max-w-[1440px] mx-auto px-6 h-screen flex flex-col justify-center items-center">
+      <div class="text-center text-white max-w-[960px] mx-auto">
         <h1
-          class="text-6xl lg:text-7xl font-bold mb-8"
+          class="text-5xl lg:text-7xl font-bold mb-8 tracking-tight"
           data-scroll="up"
         >
           创造多元超级分身
         </h1>
         <p
-          class="text-2xl lg:text-3xl mb-16 opacity-90"
+          class="text-xl lg:text-3xl mb-16 opacity-90 font-light"
           data-scroll="up"
           style="--scroll-delay: 200ms;"
         >
@@ -56,7 +74,7 @@ useScrollAnimation()
 
         <!-- Platform Selection -->
         <div
-          class="flex flex-col lg:flex-row gap-8 lg:gap-12 justify-center items-center"
+          class="flex flex-col lg:flex-row gap-8 justify-center items-stretch"
           data-scroll="up"
           style="--scroll-delay: 400ms;"
         >
@@ -68,15 +86,19 @@ useScrollAnimation()
             :key="platform.id"
             @click="setSelectedPlatform(platform.id)"
             :class="[
-              'cursor-pointer transition-all duration-500',
-              'p-10 lg:p-12 rounded-2xl backdrop-blur-md w-full lg:w-[480px]',
-              selectedPlatform === platform.id ? 'bg-blue-600/40 border-blue-400 scale-105' : 'bg-white/10 border-transparent hover:scale-105',
-              'border-2'
+              'cursor-pointer transition-all duration-500 transform',
+              'p-8 lg:p-10 rounded-2xl backdrop-blur-sm w-full lg:w-[420px]',
+              selectedPlatform === platform.id
+                ? 'bg-gradient-to-br from-blue-600/40 to-blue-500/40 border-blue-400/50 scale-105'
+                : 'bg-white/5 border-white/20 hover:bg-white/10 hover:scale-105',
+              'border'
             ]"
           >
-            <h3 class="text-3xl font-bold mb-6">{{ platform.title }}</h3>
-            <p class="text-xl text-gray-200 mb-8">{{ platform.desc }}</p>
-            <button class="px-12 py-4 bg-blue-600 rounded-full text-lg hover:bg-blue-700 transition-colors">
+            <h3 class="text-2xl lg:text-3xl font-bold mb-4">{{ platform.title }}</h3>
+            <p class="text-lg text-gray-200 mb-8">{{ platform.desc }}</p>
+            <button
+              class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full text-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-lg"
+            >
               即刻体验
             </button>
           </div>
@@ -84,14 +106,16 @@ useScrollAnimation()
       </div>
 
       <!-- Scroll Indicator -->
-      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div
+        class="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce"
+        style="animation-duration: 2s;"
+      >
         <p class="text-sm text-gray-400 mb-2">下滑查看更多</p>
         <svg
           class="w-6 h-6 text-gray-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
         >
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
         </svg>

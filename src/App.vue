@@ -7,6 +7,7 @@ import Solutions from './components/layout/Solutions.vue'
 import Partners from './components/layout/Partners.vue'
 import Footer from './components/layout/Footer.vue'
 import './assets/styles/animations.css'
+import './assets/styles/global.css'
 </script>
 
 <template>
@@ -23,76 +24,61 @@ import './assets/styles/animations.css'
 </template>
 
 <style>
-:root {
-  --section-padding-y: 4rem;
-  --section-padding-x: 1rem;
-  --container-max-width: 1280px;
-  --header-height: 5rem;
-  --container-padding: 1rem;
-  --section-spacing: 4rem;
+/* Base styles */
+html {
+  scroll-behavior: smooth;
 }
 
-@media (min-width: 1024px) {
-  :root {
-    --section-padding-y: 6rem;
-    --section-padding-x: 2rem;
-    --header-height: 6rem;
-    --container-padding: 2rem;
-    --section-spacing: 6rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  :root {
-    --section-padding-y: 8rem;
-    --section-padding-x: 4rem;
-    --container-max-width: 1440px;
-    --container-padding: 4rem;
-    --section-spacing: 8rem;
-  }
+body {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background-color: var(--background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Global Layout */
 .app {
   min-height: 100vh;
-  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
-  margin-top: var(--header-height);
+  flex: 1;
 }
 
-/* Container System */
-.container {
-  width: 100%;
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding: 0 var(--container-padding);
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Section Spacing */
-section {
-  padding: var(--section-padding-y) 0;
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
 }
 
-/* PC Grid System */
-@media (min-width: 1024px) {
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: var(--section-spacing);
-  }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-  .grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .grid-cols-4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
+/* Utility classes */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 </style>

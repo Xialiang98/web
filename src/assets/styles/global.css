@@ -1,0 +1,88 @@
+:root {
+  /* Layout */
+  --max-width: 1440px;
+  --content-padding: 2rem;
+  --section-padding: 6rem;
+  --grid-gap: 2rem;
+
+  /* Colors */
+  --primary: #3B82F6;
+  --primary-dark: #2563EB;
+  --text-primary: #1F2937;
+  --text-secondary: #4B5563;
+  --background: #FFFFFF;
+  --background-alt: #F9FAFB;
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+
+  /* Transitions */
+  --transition-fast: 150ms;
+  --transition-normal: 300ms;
+  --transition-slow: 500ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Z-index */
+  --z-negative: -1;
+  --z-elevate: 1;
+  --z-sticky: 100;
+  --z-drawer: 200;
+  --z-modal: 300;
+  --z-popover: 400;
+  --z-maximum: 999;
+}
+
+/* Container */
+.content-container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
+}
+
+/* PC-specific styles */
+@media (min-width: 1024px) {
+  :root {
+    --content-padding: 3rem;
+    --section-padding: 8rem;
+    --grid-gap: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --content-padding: 4rem;
+    --section-padding: 10rem;
+    --grid-gap: 3rem;
+  }
+}
+
+/* Utility classes */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+}
+
+.backdrop-blur {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}

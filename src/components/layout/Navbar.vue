@@ -4,33 +4,41 @@ import { RouterLink } from 'vue-router'
 
 const isMenuOpen = ref(false)
 const isAtTop = ref(true)
+const scrollProgress = ref(0)
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', () => {
-    isAtTop.value = window.scrollY < 50
-  })
+  const handleScroll = () => {
+    const scrollY = window.scrollY
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+    scrollProgress.value = Math.min((scrollY / maxScroll) * 100, 100)
+    isAtTop.value = scrollY < 50
+  }
+
+  window.addEventListener('scroll', handleScroll)
+  handleScroll()
 })
 </script>
 
 <template>
   <nav
-    class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
+    class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
     :class="[
-      isAtTop ? 'bg-transparent' : 'bg-white/95 backdrop-blur-sm shadow-md',
-      isAtTop ? 'text-white' : 'text-gray-900'
+      isAtTop ? 'bg-transparent' : 'bg-white/95 backdrop-blur-sm shadow-sm',
+      isAtTop ? 'text-white' : 'text-gray-900',
+      'py-2'
     ]"
   >
-    <div class="max-w-7xl mx-auto px-4 lg:px-8">
-      <div class="flex justify-between h-20">
+    <div class="max-w-[1440px] mx-auto px-6">
+      <div class="flex justify-between items-center h-16">
         <div class="flex items-center">
           <div class="flex-shrink-0 flex items-center">
             <img class="h-8 w-auto" src="@/assets/logo.svg" :class="{'filter invert': isAtTop}" alt="数字人官网" />
           </div>
-          <div class="hidden lg:ml-10 lg:flex lg:space-x-12">
+          <div class="hidden lg:ml-12 lg:flex lg:space-x-8">
             <RouterLink
               v-for="(item, index) in [
                 { to: '/products', text: '产品矩阵' },
@@ -40,8 +48,11 @@ onMounted(() => {
               ]"
               :key="index"
               :to="item.to"
-              class="inline-flex items-center px-1 py-2 text-base font-medium hover:opacity-80 transition-opacity"
-              :class="[isAtTop ? 'text-white' : 'text-gray-900']"
+              class="inline-flex items-center px-1 py-2 text-base font-medium transition-all duration-300"
+              :class="[
+                isAtTop ? 'text-white hover:text-white/80' : 'text-gray-900 hover:text-blue-600',
+                'relative'
+              ]"
             >
               {{ item.text }}
             </RouterLink>
@@ -54,7 +65,7 @@ onMounted(() => {
             class="inline-flex items-center px-6 py-2 text-sm font-medium rounded-full transition-all duration-300"
             :class="[
               isAtTop
-                ? 'bg-white/20 text-white hover:bg-white/30'
+                ? 'bg-white/10 text-white hover:bg-white/20'
                 : 'bg-blue-600 text-white hover:bg-blue-700'
             ]"
           >
@@ -65,15 +76,14 @@ onMounted(() => {
             class="inline-flex items-center px-6 py-2 text-sm font-medium rounded-full transition-all duration-300"
             :class="[
               isAtTop
-                ? 'border border-white/50 text-white hover:bg-white/10'
-                : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                ? 'border border-white/30 text-white hover:bg-white/10'
+                : 'border border-gray-200 text-gray-700 hover:bg-gray-50'
             ]"
           >
             登录
           </RouterLink>
         </div>
 
-        <!-- Mobile menu button -->
         <div class="flex items-center lg:hidden">
           <button
             @click="toggleMenu"
@@ -104,7 +114,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Mobile menu -->
     <div
       :class="[isMenuOpen ? 'block' : 'hidden', 'lg:hidden']"
       class="bg-white shadow-lg"
