@@ -68,7 +68,7 @@ onMounted(() => {
           :class="[
             'p-8 lg:p-16 rounded-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer',
             'bg-white shadow-lg hover:shadow-xl animate-scale-in',
-            {'delay-' + (index + 1) * 100: isVisible},
+            isVisible ? `delay-${(index + 1) * 100}` : '',
             activeFeature === index ? 'border-2 border-blue-500' : 'border-2 border-transparent'
           ]"
         >
