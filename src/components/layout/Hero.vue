@@ -1,61 +1,70 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const selectedPlatform = ref('application')
+const videoLoaded = ref(false)
+
 const setSelectedPlatform = (platform: string) => {
   selectedPlatform.value = platform
+}
+
+const handleVideoLoad = () => {
+  videoLoaded.value = true
 }
 </script>
 
 <template>
-  <section class="relative min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white overflow-hidden">
-    <!-- Background Animation -->
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-radial from-blue-900/20 via-gray-900 to-gray-900 animate-gradient"></div>
-      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ0cmFuc3BhcmVudCIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIi8+PC9zdmc+')] opacity-30"></div>
+  <section class="relative min-h-screen overflow-hidden">
+    <!-- Video Background -->
+    <div class="absolute inset-0 z-0">
+      <video
+        class="w-full h-full object-cover"
+        autoplay
+        loop
+        muted
+        playsinline
+        @loadeddata="handleVideoLoad"
+      >
+        <source src="/videos/hero-background.mp4" type="video/mp4">
+      </video>
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent"
+        :class="{'opacity-0': !videoLoaded}"
+      ></div>
     </div>
 
     <!-- Content -->
-    <div class="relative container mx-auto px-4 py-32 flex flex-col items-center justify-center text-center">
-      <h1 class="text-5xl md:text-6xl font-bold mb-8 animate-fade-in">
-        创造多元超级分身
-      </h1>
-      <p class="text-xl md:text-2xl mb-12 max-w-3xl mx-auto opacity-90">
-        探索曦灵数字人的新世界
-      </p>
+    <div class="relative z-10 container mx-auto px-4 lg:px-16 py-32 lg:py-40">
+      <div class="max-w-4xl mx-auto text-center text-white">
+        <h1 class="text-5xl lg:text-6xl font-bold mb-8 animate-fade-in">
+          创造多元超级分身
+        </h1>
+        <p class="text-xl lg:text-2xl mb-12 opacity-90">
+          探索曦灵数字人的新世界
+        </p>
 
-      <!-- Platform Selection -->
-      <div class="flex flex-col md:flex-row gap-8 mt-12">
-        <div
-          @click="setSelectedPlatform('application')"
-          :class="[
-            'cursor-pointer transition-all duration-300 transform hover:scale-105',
-            'p-8 rounded-xl backdrop-blur-md',
-            selectedPlatform === 'application' ? 'bg-blue-600/30 border-blue-400' : 'bg-white/10 border-transparent',
-            'border-2'
-          ]"
-        >
-          <h3 class="text-2xl font-bold mb-4">应用平台</h3>
-          <p class="text-gray-300">一次人像定制多场景应用</p>
-          <button class="mt-6 px-6 py-2 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">
-            即刻体验
-          </button>
-        </div>
-
-        <div
-          @click="setSelectedPlatform('open')"
-          :class="[
-            'cursor-pointer transition-all duration-300 transform hover:scale-105',
-            'p-8 rounded-xl backdrop-blur-md',
-            selectedPlatform === 'open' ? 'bg-blue-600/30 border-blue-400' : 'bg-white/10 border-transparent',
-            'border-2'
-          ]"
-        >
-          <h3 class="text-2xl font-bold mb-4">开放平台</h3>
-          <p class="text-gray-300">原子能力组件化输出</p>
-          <button class="mt-6 px-6 py-2 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">
-            即刻体验
-          </button>
+        <!-- Platform Selection -->
+        <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 mt-12 justify-center">
+          <div
+            v-for="(platform, index) in [
+              { id: 'application', title: '应用平台', desc: '一次人像定制多场景应用' },
+              { id: 'open', title: '开放平台', desc: '原子能力组件化输出' }
+            ]"
+            :key="platform.id"
+            @click="setSelectedPlatform(platform.id)"
+            :class="[
+              'cursor-pointer transition-all duration-300 transform hover:scale-105',
+              'p-8 lg:p-10 rounded-xl backdrop-blur-md w-full lg:w-96',
+              selectedPlatform === platform.id ? 'bg-blue-600/30 border-blue-400' : 'bg-white/10 border-transparent',
+              'border-2'
+            ]"
+          >
+            <h3 class="text-2xl font-bold mb-4">{{ platform.title }}</h3>
+            <p class="text-gray-300">{{ platform.desc }}</p>
+            <button class="mt-6 px-8 py-3 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">
+              即刻体验
+            </button>
+          </div>
         </div>
       </div>
 
@@ -88,18 +97,7 @@ const setSelectedPlatform = (platform: string) => {
   }
 }
 
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 .animate-fade-in {
   animation: fade-in 1s ease-out forwards;
-}
-
-.animate-gradient {
-  animation: gradient 15s ease infinite;
-  background-size: 400% 400%;
 }
 </style>

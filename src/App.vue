@@ -22,69 +22,65 @@ import Footer from './components/layout/Footer.vue'
 </template>
 
 <style>
+:root {
+  --section-padding-y: 4rem;
+  --section-padding-x: 1rem;
+  --container-max-width: 1280px;
+  --header-height: 5rem;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --section-padding-y: 6rem;
+    --section-padding-x: 2rem;
+    --header-height: 6rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --section-padding-y: 8rem;
+    --section-padding-x: 4rem;
+  }
+}
+
 .app {
   min-height: 100vh;
 }
 
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+main {
+  margin-top: var(--header-height);
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
+.container {
   width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--section-padding-x);
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+section {
+  padding: var(--section-padding-y) 0;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
+/* PC-specific styles */
 @media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 </style>

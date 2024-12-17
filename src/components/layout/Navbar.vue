@@ -1,54 +1,84 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const isMenuOpen = ref(false)
+const isAtTop = ref(true)
+
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
+
+onMounted(() => {
+  window.addEventListener('scroll', () => {
+    isAtTop.value = window.scrollY < 50
+  })
+})
 </script>
 
 <template>
-  <nav class="fixed top-0 left-0 w-full bg-white shadow-md z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex">
+  <nav
+    class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
+    :class="[
+      isAtTop ? 'bg-transparent' : 'bg-white/95 backdrop-blur-sm shadow-md',
+      isAtTop ? 'text-white' : 'text-gray-900'
+    ]"
+  >
+    <div class="max-w-7xl mx-auto px-4 lg:px-8">
+      <div class="flex justify-between h-20">
+        <div class="flex items-center">
           <div class="flex-shrink-0 flex items-center">
-            <img class="h-8 w-auto" src="@/assets/logo.svg" alt="数字人官网" />
+            <img class="h-8 w-auto" src="@/assets/logo.svg" :class="{'filter invert': isAtTop}" alt="数字人官网" />
           </div>
-          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-            <RouterLink to="/products" class="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
-              产品矩阵
-            </RouterLink>
-            <RouterLink to="/pricing" class="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
-              价格
-            </RouterLink>
-            <RouterLink to="/docs" class="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
-              帮助文档
-            </RouterLink>
-            <RouterLink to="/contact" class="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
-              合作咨询
+          <div class="hidden lg:ml-10 lg:flex lg:space-x-12">
+            <RouterLink
+              v-for="(item, index) in [
+                { to: '/products', text: '产品矩阵' },
+                { to: '/pricing', text: '价格' },
+                { to: '/docs', text: '帮助文档' },
+                { to: '/contact', text: '合作咨询' }
+              ]"
+              :key="index"
+              :to="item.to"
+              class="inline-flex items-center px-1 py-2 text-base font-medium hover:opacity-80 transition-opacity"
+              :class="[isAtTop ? 'text-white' : 'text-gray-900']"
+            >
+              {{ item.text }}
             </RouterLink>
           </div>
         </div>
-        <div class="hidden sm:ml-6 sm:flex sm:items-center">
+
+        <div class="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4">
           <RouterLink
             to="/register"
-            class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+            class="inline-flex items-center px-6 py-2 text-sm font-medium rounded-full transition-all duration-300"
+            :class="[
+              isAtTop
+                ? 'bg-white/20 text-white hover:bg-white/30'
+                : 'bg-blue-600 text-white hover:bg-blue-700'
+            ]"
           >
-            注册
+            免费试用
           </RouterLink>
           <RouterLink
             to="/login"
-            class="ml-4 inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+            class="inline-flex items-center px-6 py-2 text-sm font-medium rounded-full transition-all duration-300"
+            :class="[
+              isAtTop
+                ? 'border border-white/50 text-white hover:bg-white/10'
+                : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+            ]"
           >
             登录
           </RouterLink>
         </div>
-        <div class="flex items-center sm:hidden">
+
+        <!-- Mobile menu button -->
+        <div class="flex items-center lg:hidden">
           <button
             @click="toggleMenu"
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+            class="inline-flex items-center justify-center p-2 rounded-md"
+            :class="[isAtTop ? 'text-white' : 'text-gray-500']"
           >
             <span class="sr-only">打开菜单</span>
             <svg
@@ -73,7 +103,12 @@ const toggleMenu = () => {
         </div>
       </div>
     </div>
-    <div :class="[isMenuOpen ? 'block' : 'hidden', 'sm:hidden']">
+
+    <!-- Mobile menu -->
+    <div
+      :class="[isMenuOpen ? 'block' : 'hidden', 'lg:hidden']"
+      class="bg-white shadow-lg"
+    >
       <div class="pt-2 pb-3 space-y-1">
         <RouterLink
           to="/products"
@@ -122,7 +157,25 @@ const toggleMenu = () => {
 
 <style scoped>
 .router-link-active {
-  color: #1a73e8;
-  border-bottom: 2px solid #1a73e8;
+  position: relative;
+}
+
+.router-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform-origin: right;
+  transform: scaleX(1);
+  transition: transform 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .router-link-active::after {
+    transform-origin: left;
+  }
 }
 </style>

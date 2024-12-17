@@ -5,7 +5,7 @@ const features = [
   {
     title: '一键定制数字人',
     description: '通过AI技术，快速生成高度还原的数字分身',
-    icon: '👤'
+    icon: '🎭'
   },
   {
     title: '多场景应用',
@@ -31,37 +31,51 @@ const setActiveFeature = (index: number) => {
 </script>
 
 <template>
-  <section class="py-24 bg-gray-50">
-    <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center mb-16">核心功能</h2>
+  <section class="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+    <div class="container mx-auto px-4 lg:px-16">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-6">核心功能</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          打造专属于您的数字人解决方案
+        </p>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
         <div
           v-for="(feature, index) in features"
           :key="index"
           @mouseenter="setActiveFeature(index)"
           :class="[
-            'p-8 rounded-xl transition-all duration-300 transform hover:scale-105 cursor-pointer',
-            activeFeature === index
-              ? 'bg-blue-600 text-white shadow-xl'
-              : 'bg-white text-gray-800 shadow-md hover:shadow-lg'
+            'p-8 lg:p-12 rounded-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer',
+            'bg-white shadow-lg hover:shadow-xl',
+            activeFeature === index ? 'border-2 border-blue-500' : 'border-2 border-transparent'
           ]"
         >
-          <div class="text-4xl mb-4">{{ feature.icon }}</div>
-          <h3 class="text-xl font-bold mb-4">{{ feature.title }}</h3>
-          <p :class="[
-            'text-sm',
-            activeFeature === index ? 'text-blue-100' : 'text-gray-600'
-          ]">
-            {{ feature.description }}
-          </p>
+          <div class="text-5xl mb-6">{{ feature.icon }}</div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-900">{{ feature.title }}</h3>
+          <p class="text-gray-600 leading-relaxed">{{ feature.description }}</p>
+          <div class="mt-8">
+            <a
+              href="#"
+              class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+            >
+              了解更多
+              <svg
+                class="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
-      </div>
-
-      <div class="mt-16 text-center">
-        <button class="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
-          了解更多功能
-        </button>
       </div>
     </div>
   </section>
