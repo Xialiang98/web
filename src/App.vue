@@ -1,26 +1,31 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
+import Navbar from './components/layout/Navbar.vue'
+import Hero from './components/layout/Hero.vue'
+import Features from './components/layout/Features.vue'
+import Solutions from './components/layout/Solutions.vue'
+import Partners from './components/layout/Partners.vue'
+import Footer from './components/layout/Footer.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="欢迎来到数字人官网" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="app">
+    <Navbar />
+    <main>
+      <Hero />
+      <Features />
+      <Solutions />
+      <Partners />
+    </main>
+    <Footer />
+  </div>
 </template>
 
-<style scoped>
+<style>
+.app {
+  min-height: 100vh;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
