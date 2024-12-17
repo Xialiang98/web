@@ -28,6 +28,8 @@ import './assets/styles/animations.css'
   --section-padding-x: 1rem;
   --container-max-width: 1280px;
   --header-height: 5rem;
+  --container-padding: 1rem;
+  --section-spacing: 4rem;
 }
 
 @media (min-width: 1024px) {
@@ -35,6 +37,8 @@ import './assets/styles/animations.css'
     --section-padding-y: 6rem;
     --section-padding-x: 2rem;
     --header-height: 6rem;
+    --container-padding: 2rem;
+    --section-spacing: 6rem;
   }
 }
 
@@ -42,8 +46,12 @@ import './assets/styles/animations.css'
   :root {
     --section-padding-y: 8rem;
     --section-padding-x: 4rem;
+    --container-max-width: 1440px;
+    --container-padding: 4rem;
+    --section-spacing: 8rem;
   }
 }
+</style>
 
 .app {
   min-height: 100vh;

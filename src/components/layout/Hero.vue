@@ -39,7 +39,7 @@ const handleVideoLoad = () => {
     </div>
 
     <!-- Content -->
-    <div class="relative z-10 container mx-auto px-4 lg:px-16 py-32 lg:py-40">
+    <div class="relative z-10 container mx-auto px-[var(--container-padding)] py-[calc(var(--section-spacing)*1.5)]">
       <div class="max-w-4xl mx-auto text-center text-white">
         <h1 class="text-5xl lg:text-6xl font-bold mb-8" :class="{'animate-fade-in': isVisible}">
           创造多元超级分身

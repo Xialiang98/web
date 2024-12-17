@@ -51,22 +51,22 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="features-section py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
-    <div class="container mx-auto px-4 lg:px-16">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl lg:text-5xl font-bold mb-6" :class="{'animate-fade-in': isVisible}">核心功能</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto" :class="{'animate-fade-in delay-200': isVisible}">
+  <section class="features-section py-[var(--section-padding-y)] bg-gradient-to-b from-gray-50 to-white">
+    <div class="container mx-auto px-[var(--container-padding)]">
+      <div class="text-center mb-[var(--section-spacing)]">
+        <h2 class="text-4xl lg:text-6xl font-bold mb-8" :class="{'animate-fade-in': isVisible}">核心功能</h2>
+        <p class="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto" :class="{'animate-fade-in delay-200': isVisible}">
           打造专属于您的数字人解决方案
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16 max-w-7xl mx-auto">
         <div
           v-for="(feature, index) in features"
           :key="index"
           @mouseenter="setActiveFeature(index)"
           :class="[
-            'p-8 lg:p-12 rounded-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer',
+            'p-8 lg:p-16 rounded-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer',
             'bg-white shadow-lg hover:shadow-xl animate-scale-in',
             {'delay-' + (index + 1) * 100: isVisible},
             activeFeature === index ? 'border-2 border-blue-500' : 'border-2 border-transparent'

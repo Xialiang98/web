@@ -55,16 +55,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="solutions-section py-24 lg:py-32 bg-gradient-to-b from-white to-gray-50">
-    <div class="container mx-auto px-4 lg:px-16">
-      <div class="text-center mb-16 lg:mb-24">
-        <h2 class="text-4xl lg:text-5xl font-bold mb-6" :class="{'animate-fade-in': isVisible}">行业解决方案</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto" :class="{'animate-fade-in delay-200': isVisible}">
+  <section class="solutions-section py-[var(--section-padding-y)] bg-gradient-to-b from-white to-gray-50">
+    <div class="container mx-auto px-[var(--container-padding)]">
+      <div class="text-center mb-[var(--section-spacing)]">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-8" :class="{'animate-fade-in': isVisible}">行业解决方案</h2>
+        <p class="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto" :class="{'animate-fade-in delay-200': isVisible}">
           为不同行业场景提供专业的数字人解决方案，助力企业数字化转型升级
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 max-w-7xl mx-auto">
         <div
           v-for="(solution, index) in solutions"
           :key="index"
@@ -73,7 +73,7 @@ onMounted(() => {
           :class="{'animate-scale-in': isVisible, ['delay-' + ((index + 1) * 200)]: isVisible}"
         >
           <div
-            class="p-10 lg:p-12 rounded-2xl transition-all duration-500 h-full solution-card"
+            class="p-12 lg:p-16 rounded-2xl transition-all duration-500 h-full solution-card"
             :class="[
               'transform hover:scale-[1.02]',
               activeSolution === index
