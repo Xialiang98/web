@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const solutions = [
   {
@@ -29,17 +29,37 @@ const solutions = [
 ]
 
 const activeSolution = ref(0)
+const isVisible = ref(false)
+
 const setActiveSolution = (index: number) => {
   activeSolution.value = index
 }
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          isVisible.value = true
+        }
+      })
+    },
+    { threshold: 0.3 }
+  )
+
+  const section = document.querySelector('.solutions-section')
+  if (section) {
+    observer.observe(section)
+  }
+})
 </script>
 
 <template>
-  <section class="py-24 lg:py-32 bg-gradient-to-b from-white to-gray-50">
+  <section class="solutions-section py-24 lg:py-32 bg-gradient-to-b from-white to-gray-50">
     <div class="container mx-auto px-4 lg:px-16">
       <div class="text-center mb-16 lg:mb-24">
-        <h2 class="text-4xl lg:text-5xl font-bold mb-6">行业解决方案</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-6" :class="{'animate-fade-in': isVisible}">行业解决方案</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto" :class="{'animate-fade-in delay-200': isVisible}">
           为不同行业场景提供专业的数字人解决方案，助力企业数字化转型升级
         </p>
       </div>
@@ -50,9 +70,10 @@ const setActiveSolution = (index: number) => {
           :key="index"
           @mouseenter="setActiveSolution(index)"
           class="group relative overflow-hidden"
+          :class="{'animate-scale-in': isVisible, ['delay-' + ((index + 1) * 200)]: isVisible}"
         >
           <div
-            class="p-10 lg:p-12 rounded-2xl transition-all duration-500 h-full"
+            class="p-10 lg:p-12 rounded-2xl transition-all duration-500 h-full solution-card"
             :class="[
               'transform hover:scale-[1.02]',
               activeSolution === index

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const features = [
   {
@@ -25,17 +25,37 @@ const features = [
 ]
 
 const activeFeature = ref(0)
+const isVisible = ref(false)
+
 const setActiveFeature = (index: number) => {
   activeFeature.value = index
 }
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          isVisible.value = true
+        }
+      })
+    },
+    { threshold: 0.3 }
+  )
+
+  const section = document.querySelector('.features-section')
+  if (section) {
+    observer.observe(section)
+  }
+})
 </script>
 
 <template>
-  <section class="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+  <section class="features-section py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
     <div class="container mx-auto px-4 lg:px-16">
       <div class="text-center mb-16">
-        <h2 class="text-4xl lg:text-5xl font-bold mb-6">核心功能</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        <h2 class="text-4xl lg:text-5xl font-bold mb-6" :class="{'animate-fade-in': isVisible}">核心功能</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto" :class="{'animate-fade-in delay-200': isVisible}">
           打造专属于您的数字人解决方案
         </p>
       </div>
@@ -47,7 +67,8 @@ const setActiveFeature = (index: number) => {
           @mouseenter="setActiveFeature(index)"
           :class="[
             'p-8 lg:p-12 rounded-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer',
-            'bg-white shadow-lg hover:shadow-xl',
+            'bg-white shadow-lg hover:shadow-xl animate-scale-in',
+            {'delay-' + (index + 1) * 100: isVisible},
             activeFeature === index ? 'border-2 border-blue-500' : 'border-2 border-transparent'
           ]"
         >

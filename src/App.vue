@@ -6,6 +6,7 @@ import Features from './components/layout/Features.vue'
 import Solutions from './components/layout/Solutions.vue'
 import Partners from './components/layout/Partners.vue'
 import Footer from './components/layout/Footer.vue'
+import './assets/styles/animations.css'
 </script>
 
 <template>

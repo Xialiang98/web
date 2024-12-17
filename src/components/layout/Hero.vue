@@ -3,10 +3,15 @@ import { ref, onMounted } from 'vue'
 
 const selectedPlatform = ref('application')
 const videoLoaded = ref(false)
+const isVisible = ref(false)
 
 const setSelectedPlatform = (platform: string) => {
   selectedPlatform.value = platform
 }
+
+onMounted(() => {
+  setTimeout(() => isVisible.value = true, 100)
+})
 
 const handleVideoLoad = () => {
   videoLoaded.value = true
@@ -36,10 +41,10 @@ const handleVideoLoad = () => {
     <!-- Content -->
     <div class="relative z-10 container mx-auto px-4 lg:px-16 py-32 lg:py-40">
       <div class="max-w-4xl mx-auto text-center text-white">
-        <h1 class="text-5xl lg:text-6xl font-bold mb-8 animate-fade-in">
+        <h1 class="text-5xl lg:text-6xl font-bold mb-8" :class="{'animate-fade-in': isVisible}">
           创造多元超级分身
         </h1>
-        <p class="text-xl lg:text-2xl mb-12 opacity-90">
+        <p class="text-xl lg:text-2xl mb-12 opacity-90" :class="{'animate-fade-in delay-200': isVisible}">
           探索曦灵数字人的新世界
         </p>
 
