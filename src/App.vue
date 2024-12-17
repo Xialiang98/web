@@ -51,33 +51,36 @@ import './assets/styles/animations.css'
     --section-spacing: 8rem;
   }
 }
-</style>
 
+/* Global Layout */
 .app {
   min-height: 100vh;
+  background-color: #ffffff;
 }
 
 main {
   margin-top: var(--header-height);
 }
 
+/* Container System */
 .container {
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0 var(--section-padding-x);
+  padding: 0 var(--container-padding);
 }
 
+/* Section Spacing */
 section {
   padding: var(--section-padding-y) 0;
 }
 
-/* PC-specific styles */
+/* PC Grid System */
 @media (min-width: 1024px) {
   .grid {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    gap: 2rem;
+    gap: var(--section-spacing);
   }
 
   .grid-cols-2 {
