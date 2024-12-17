@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
+import { useScrollAnimation } from '@/composables/useScrollAnimation'
 
 const selectedPlatform = ref('application')
 const videoLoaded = ref(false)
@@ -9,13 +10,11 @@ const setSelectedPlatform = (platform: string) => {
   selectedPlatform.value = platform
 }
 
-onMounted(() => {
-  setTimeout(() => isVisible.value = true, 100)
-})
-
 const handleVideoLoad = () => {
   videoLoaded.value = true
 }
+
+useScrollAnimation()
 </script>
 
 <template>
@@ -39,17 +38,28 @@ const handleVideoLoad = () => {
     </div>
 
     <!-- Content -->
-    <div class="relative z-10 container mx-auto px-[var(--container-padding)] py-[calc(var(--section-spacing)*1.5)]">
-      <div class="max-w-4xl mx-auto text-center text-white">
-        <h1 class="text-5xl lg:text-6xl font-bold mb-8" :class="{'animate-fade-in': isVisible}">
+    <div class="relative z-10 content-container">
+      <div class="text-center text-white">
+        <h1
+          class="text-6xl lg:text-7xl font-bold mb-8"
+          data-scroll="up"
+        >
           创造多元超级分身
         </h1>
-        <p class="text-xl lg:text-2xl mb-12 opacity-90" :class="{'animate-fade-in delay-200': isVisible}">
+        <p
+          class="text-2xl lg:text-3xl mb-16 opacity-90"
+          data-scroll="up"
+          style="--scroll-delay: 200ms;"
+        >
           探索曦灵数字人的新世界
         </p>
 
         <!-- Platform Selection -->
-        <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 mt-12 justify-center">
+        <div
+          class="flex flex-col lg:flex-row gap-8 lg:gap-12 justify-center items-center"
+          data-scroll="up"
+          style="--scroll-delay: 400ms;"
+        >
           <div
             v-for="(platform, index) in [
               { id: 'application', title: '应用平台', desc: '一次人像定制多场景应用' },
@@ -58,15 +68,15 @@ const handleVideoLoad = () => {
             :key="platform.id"
             @click="setSelectedPlatform(platform.id)"
             :class="[
-              'cursor-pointer transition-all duration-300 transform hover:scale-105',
-              'p-8 lg:p-10 rounded-xl backdrop-blur-md w-full lg:w-96',
-              selectedPlatform === platform.id ? 'bg-blue-600/30 border-blue-400' : 'bg-white/10 border-transparent',
+              'cursor-pointer transition-all duration-500',
+              'p-10 lg:p-12 rounded-2xl backdrop-blur-md w-full lg:w-[480px]',
+              selectedPlatform === platform.id ? 'bg-blue-600/40 border-blue-400 scale-105' : 'bg-white/10 border-transparent hover:scale-105',
               'border-2'
             ]"
           >
-            <h3 class="text-2xl font-bold mb-4">{{ platform.title }}</h3>
-            <p class="text-gray-300">{{ platform.desc }}</p>
-            <button class="mt-6 px-8 py-3 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">
+            <h3 class="text-3xl font-bold mb-6">{{ platform.title }}</h3>
+            <p class="text-xl text-gray-200 mb-8">{{ platform.desc }}</p>
+            <button class="px-12 py-4 bg-blue-600 rounded-full text-lg hover:bg-blue-700 transition-colors">
               即刻体验
             </button>
           </div>
@@ -94,7 +104,7 @@ const handleVideoLoad = () => {
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -103,6 +113,14 @@ const handleVideoLoad = () => {
 }
 
 .animate-fade-in {
-  animation: fade-in 1s ease-out forwards;
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
 }
 </style>

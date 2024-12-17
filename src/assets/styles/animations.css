@@ -1,7 +1,7 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -9,19 +9,32 @@
   }
 }
 
-@keyframes fadeIn {
+@keyframes fadeInLeft {
   from {
     opacity: 0;
+    transform: translateX(-30px);
   }
   to {
     opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.98);
   }
   to {
     opacity: 1;
@@ -29,19 +42,35 @@
   }
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+.animate-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
+.animate-fade-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate-scale-in {
-  animation: scaleIn 0.6s ease-out forwards;
+.animate-fade-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Animation delays for staggered effects */
+.animate-scale {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.is-visible {
+  opacity: 1;
+  transform: translate(0) scale(1);
+}
+
 .delay-100 {
   animation-delay: 100ms;
 }
@@ -58,29 +87,37 @@
   animation-delay: 400ms;
 }
 
-/* Scroll reveal animations */
-.reveal-on-scroll {
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-600 {
+  animation-delay: 600ms;
+}
+
+[data-scroll] {
   opacity: 0;
-  transition: all 0.6s ease-out;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--scroll-delay, 0ms);
 }
 
-.reveal-on-scroll.is-visible {
+[data-scroll="up"] {
+  transform: translateY(30px);
+}
+
+[data-scroll="left"] {
+  transform: translateX(-30px);
+}
+
+[data-scroll="right"] {
+  transform: translateX(30px);
+}
+
+[data-scroll="scale"] {
+  transform: scale(0.98);
+}
+
+[data-scroll].in-view {
   opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-on-scroll.from-bottom {
-  transform: translateY(20px);
-}
-
-.reveal-on-scroll.from-left {
-  transform: translateX(-20px);
-}
-
-.reveal-on-scroll.from-right {
-  transform: translateX(20px);
-}
-
-.reveal-on-scroll.scale-up {
-  transform: scale(0.95);
+  transform: translate(0) scale(1);
 }

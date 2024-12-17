@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
+import { useScrollAnimation } from '@/composables/useScrollAnimation'
 
 const features = [
   {
@@ -25,64 +26,56 @@ const features = [
 ]
 
 const activeFeature = ref(0)
-const isVisible = ref(false)
 
 const setActiveFeature = (index: number) => {
   activeFeature.value = index
 }
 
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          isVisible.value = true
-        }
-      })
-    },
-    { threshold: 0.3 }
-  )
-
-  const section = document.querySelector('.features-section')
-  if (section) {
-    observer.observe(section)
-  }
-})
+useScrollAnimation()
 </script>
 
 <template>
-  <section class="features-section py-[var(--section-padding-y)] bg-gradient-to-b from-gray-50 to-white">
-    <div class="container mx-auto px-[var(--container-padding)]">
-      <div class="text-center mb-[var(--section-spacing)]">
-        <h2 class="text-4xl lg:text-6xl font-bold mb-8" :class="{'animate-fade-in': isVisible}">核心功能</h2>
-        <p class="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto" :class="{'animate-fade-in delay-200': isVisible}">
+  <section class="features-section py-[var(--section-padding)] bg-gradient-to-b from-gray-50 to-white">
+    <div class="content-container">
+      <div class="text-center mb-20">
+        <h2
+          class="text-4xl lg:text-5xl font-bold mb-8"
+          data-scroll="up"
+        >
+          核心功能
+        </h2>
+        <p
+          class="text-xl lg:text-2xl text-gray-600"
+          data-scroll="up"
+          style="--scroll-delay: 200ms;"
+        >
           打造专属于您的数字人解决方案
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-[var(--grid-gap)]">
         <div
           v-for="(feature, index) in features"
           :key="index"
-          @mouseenter="setActiveFeature(index)"
+          data-scroll="scale"
+          :style="`--scroll-delay: ${(index + 1) * 200}ms`"
           :class="[
-            'p-8 lg:p-16 rounded-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer',
-            'bg-white shadow-lg hover:shadow-xl animate-scale-in',
-            isVisible ? `delay-${(index + 1) * 100}` : '',
-            activeFeature === index ? 'border-2 border-blue-500' : 'border-2 border-transparent'
+            'p-8 rounded-2xl transition-all duration-500',
+            'bg-white shadow-lg hover:shadow-xl',
+            activeFeature === index ? 'border-2 border-blue-500 scale-105' : 'border-2 border-transparent hover:scale-105'
           ]"
         >
-          <div class="text-5xl mb-6">{{ feature.icon }}</div>
-          <h3 class="text-2xl font-bold mb-4 text-gray-900">{{ feature.title }}</h3>
-          <p class="text-gray-600 leading-relaxed">{{ feature.description }}</p>
-          <div class="mt-8">
+          <div class="text-6xl mb-8">{{ feature.icon }}</div>
+          <h3 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-900">{{ feature.title }}</h3>
+          <p class="text-lg text-gray-600 leading-relaxed mb-8">{{ feature.description }}</p>
+          <div>
             <a
               href="#"
-              class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+              class="inline-flex items-center text-blue-600 hover:text-blue-700 text-lg font-medium group"
             >
               了解更多
               <svg
-                class="w-5 h-5 ml-2"
+                class="w-5 h-5 ml-2 transform transition-transform group-hover:translate-x-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
+import { useScrollAnimation } from '@/composables/useScrollAnimation'
 
 const solutions = [
   {
@@ -29,6 +30,15 @@ const solutions = [
 ]
 
 const activeSolution = ref(0)
+
+const setActiveSolution = (index: number) => {
+  activeSolution.value = index
+}
+
+useScrollAnimation()
+</script>
+
+const activeSolution = ref(0)
 const isVisible = ref(false)
 
 const setActiveSolution = (index: number) => {
@@ -55,25 +65,34 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="solutions-section py-[var(--section-padding-y)] bg-gradient-to-b from-white to-gray-50">
-    <div class="container mx-auto px-[var(--container-padding)]">
-      <div class="text-center mb-[var(--section-spacing)]">
-        <h2 class="text-4xl lg:text-5xl font-bold mb-8" :class="{'animate-fade-in': isVisible}">行业解决方案</h2>
-        <p class="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto" :class="{'animate-fade-in delay-200': isVisible}">
+  <section class="solutions-section py-[var(--section-padding)] bg-gradient-to-b from-white to-gray-50">
+    <div class="content-container">
+      <div class="text-center mb-20">
+        <h2
+          class="text-4xl lg:text-5xl font-bold mb-8"
+          data-scroll="up"
+        >
+          行业解决方案
+        </h2>
+        <p
+          class="text-xl lg:text-2xl text-gray-600"
+          data-scroll="up"
+          style="--scroll-delay: 200ms;"
+        >
           为不同行业场景提供专业的数字人解决方案，助力企业数字化转型升级
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-[60px] gap-x-[40px]">
         <div
           v-for="(solution, index) in solutions"
           :key="index"
-          @mouseenter="setActiveSolution(index)"
-          class="group relative overflow-hidden"
-          :class="{'animate-scale-in': isVisible, ['delay-' + ((index + 1) * 200)]: isVisible}"
+          data-scroll="scale"
+          :style="`--scroll-delay: ${(index + 1) * 200}ms`"
+          class="group relative overflow-hidden w-full max-w-[380px] mx-auto"
         >
           <div
-            class="p-12 lg:p-16 rounded-2xl transition-all duration-500 h-full solution-card"
+            class="p-10 rounded-2xl transition-all duration-500 h-full solution-card"
             :class="[
               'transform hover:scale-[1.02]',
               activeSolution === index
@@ -116,14 +135,14 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="text-center mt-16 lg:mt-24">
+      <div class="text-center mt-20">
         <a
           href="#contact"
-          class="inline-flex items-center px-8 py-4 text-lg font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors"
+          class="inline-flex items-center px-12 py-4 text-lg font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors group"
         >
           咨询解决方案
           <svg
-            class="w-5 h-5 ml-2"
+            class="w-5 h-5 ml-2 transform transition-transform group-hover:translate-x-1"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
