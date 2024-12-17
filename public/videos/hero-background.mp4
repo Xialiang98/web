@@ -1,2 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>XMXS9DA7TJ8NSY8G</RequestId><HostId>BcbpGnW8lu1BHCjzPTNZg6PKLwnjEpp89wj+OK5FEdEBqs8pbMM2N1dUk4ZTk1R/18kjRyaNCppVKrQbZJ/per1i0P9iiSZh</HostId></Error>
+<?xml version='1.0' encoding='UTF-8'?><Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Details>No such object: digital-human-assets/hero-background.mp4</Details></Error>
